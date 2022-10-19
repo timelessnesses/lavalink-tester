@@ -9,10 +9,10 @@ async def test_connection(host: str, port:int, password:typing.Union[str,bytes,N
     ws = await websockets.connect(f'ws://{host}:{port}/',extra_headers={'Authorization':password,'Client-Name':'Python connection tester','User-Id':1})
     message = await ws.recv()
     try:
-        orjson.loads(message)
+        print(orjson.loads(message))
     except orjson.JSONDecodeError:
         await ws.close()
-        return False
+        return (False,None)
     ping = await ws.ping()
     pong = time.time()
     await ping
